@@ -1,4 +1,4 @@
-### PennyTrack - Expense Tracking and Investment Recommendation System**
+### PennyTrack - Expense Tracking and Investment Recommendation System
 
 ---
 
