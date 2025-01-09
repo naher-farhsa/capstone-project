@@ -1,0 +1,9 @@
+feature,importance
+ExpectedReturn,0.5000000000000001
+MaxPotentialLoss,0.16829630251450792
+ReturnToRiskRatio,0.16829630251450792
+RiskScore,0.16340739497098408
+MinIncome,0.0
+MaxIncome,0.0
+RiskCode,0.0
+IncomeRange,0.0

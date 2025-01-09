@@ -1,0 +1,21 @@
+InvestmentOption,RiskLevel,ExpectedReturn,MaxPotentialLoss,MinIncome,MaxIncome
+Government Bonds,Very Low,4,0,0,15
+Treasury Bills,Very Low,3,0,0,15
+Fixed Deposits,Low,6,1,0,15
+Money Market Funds,Low,5,1,0,15
+Blue-chip Stocks,Low,8,5,0,15
+Index Funds,Low,7,5,0,15
+Municipal Bonds,Low-Medium,7,3,10,30
+Corporate Bonds,Low-Medium,8,4,10,30
+Balanced Mutual Funds,Medium,9,8,15,50
+Diversified Mutual Funds,Medium,10,10,15,50
+Large-cap Stocks,Medium,11,12,15,50
+ETFs,Medium,11,10,15,50
+Growth Mutual Funds,Medium-High,13,12,30,75
+Real Estate Investment Trusts,Medium-High,14,13,30,75
+Mid-cap Stocks,High,15,15,50,1000
+Small-cap Stocks,High,16,18,50,1000
+Sector-specific Funds,High,18,20,50,1000
+International Equities,Very High,20,25,75,1000
+Emerging Market Funds,Very High,22,28,75,1000
+Cryptocurrency Funds,Very High,25,35,100,1000
