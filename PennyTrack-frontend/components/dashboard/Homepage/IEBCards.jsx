@@ -6,16 +6,16 @@ const IEBCards = () => {
 	const [income, setIncome] = useState("0");
 	const [expenses, setExpenses] = useState("0");
 	const [balance, setBalance] = useState("0");
+	const [accessToken, setAccessToken] = useState(null);
 
 	const incomeUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/income/totalIncome`;
 	const expensesUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/expense/totalExpense`;
-	const accessToken = localStorage.getItem("accessToken");
 
-	const getIncomeExpenses = async () => {
+	const getIncomeExpenses = async (token) => {
 		try {
 			const config = {
 				headers: {
-					Authorization: `Bearer ${accessToken}`,
+					Authorization: `Bearer ${token}`,
 				},
 			};
 
@@ -39,11 +39,17 @@ const IEBCards = () => {
 	};
 
 	useEffect(() => {
-		getIncomeExpenses();
+		// Ensure localStorage is only accessed on the client
+		const token = localStorage.getItem("accessToken");
+		setAccessToken(token);
+
+		if (token) {
+			getIncomeExpenses(token);
+		}
 	}, []);
 
 	return (
-		<div className="flex  justify-around items-center space-x-10 w-full">
+		<div className="flex justify-around items-center space-x-10 w-full">
 			<Card title="Income" value={`₹${income}`} />
 			<Card title="Expenses" value={`₹${expenses}`} />
 			<Card title="Balance" value={`₹${balance}`} />
