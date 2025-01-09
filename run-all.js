@@ -15,67 +15,60 @@ function runCommand(command, args, cwd, name) {
 	});
 
 	process.on("close", (code) => {
-		console.log(`[${name}] exited with code ${code}`);
+		if (code !== 0) {
+			console.error(`[${name} ERROR]: Exited with code ${code}`);
+		} else {
+			console.log(`[${name}]: Successfully exited with code ${code}`);
+		}
 	});
 }
 
-// Function to check if node_modules exist
+// Function to ensure Node.js dependencies are installed
 function ensureNodeModules(projectPath) {
+	const packageJsonPath = path.join(projectPath, "package.json");
+	if (!fs.existsSync(packageJsonPath)) {
+		console.error(`[Setup ERROR]: package.json not found in ${projectPath}.`);
+		return;
+	}
+
 	const nodeModulesPath = path.join(projectPath, "node_modules");
 	if (!fs.existsSync(nodeModulesPath)) {
 		console.log(
-			`[Setup]: node_modules not found in ${projectPath}. Installing dependencies...`,
+			`[Setup]: Installing Node.js dependencies in ${projectPath}...`,
 		);
 		execSync("npm install", { cwd: projectPath, stdio: "inherit" });
 	} else {
-		console.log(`[Setup]: node_modules found in ${projectPath}.`);
+		console.log(
+			`[Setup]: Node.js dependencies are already installed in ${projectPath}.`,
+		);
 	}
 }
 
-// Function to check and activate Python virtual environment
+// Function to ensure Python virtual environment and dependencies
 function ensurePythonEnv(projectPath) {
 	const venvPath = path.join(projectPath, "penv");
-	if (fs.existsSync(venvPath)) {
+	if (!fs.existsSync(venvPath)) {
 		console.log(
-			`[Setup]: Python virtual environment 'penv' found in ${projectPath}. Activating it...`,
+			`[Setup]: Creating Python virtual environment in ${projectPath}...`,
 		);
-		try {
-			execSync(`source penv/bin/activate && python train_model.py`, {
-				cwd: projectPath,
-				shell: true,
-				stdio: "inherit",
-			});
-			console.log(
-				`[Setup]: Python virtual environment activated and model trained.`,
-			);
-		} catch (error) {
-			console.error(
-				`[Setup ERROR]: Failed to activate 'penv' or train the model in ${projectPath}.`,
-			);
-			console.error(error);
-		}
-	} else {
-		console.log(
-			`[Setup]: Python virtual environment 'penv' not found. Creating and setting it up...`,
+		execSync("python -m venv penv", { cwd: projectPath, stdio: "inherit" });
+	}
+
+	console.log(
+		`[Setup]: Activating Python virtual environment and installing dependencies...`,
+	);
+	try {
+		execSync(`source penv/bin/activate && pip install -r requirements.txt`, {
+			cwd: projectPath,
+			shell: true,
+			stdio: "inherit",
+		});
+		console.log(`[Setup]: Python dependencies installed successfully.`);
+	} catch (error) {
+		console.error(
+			`[Setup ERROR]: Failed to install Python dependencies in ${projectPath}.`,
 		);
-		try {
-			execSync(
-				`python -m venv penv && source penv/bin/activate && pip install -r requirements.txt && python train_model.py`,
-				{
-					cwd: projectPath,
-					shell: true,
-					stdio: "inherit",
-				},
-			);
-			console.log(
-				`[Setup]: Python virtual environment 'penv' created, activated, and model trained.`,
-			);
-		} catch (error) {
-			console.error(
-				`[Setup ERROR]: Failed to set up 'penv' in ${projectPath}.`,
-			);
-			console.error(error);
-		}
+		console.error(error);
 	}
 }
 
