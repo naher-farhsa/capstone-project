@@ -146,5 +146,3 @@ If you prefer manual setup, follow these steps for each component:
 This project is licensed under the MIT License. See the `LICENSE` file for details.
 
 ---
-
-This README is tailored to your project and provides clear instructions for setup and usage, aligning with the script automation. Let me know if you need further adjustments!
